@@ -1,0 +1,13 @@
+params:
+  - id: api_keys
+    type: secret
+    name: API keys
+    description: "Bearer tokens that clients must send (comma-separated for several). Callers use: Authorization: Bearer <key>"
+    default_value: "$random(len=32)"
+    optional: false
+
+locales:
+  zh:
+    api_keys:
+      name: API 密钥
+      description: 客户端访问时必须携带的 Bearer 密钥，多个可用英文逗号分隔。调用示例：Authorization: Bearer <密钥>

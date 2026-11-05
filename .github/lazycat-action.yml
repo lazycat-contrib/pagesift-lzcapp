@@ -1,0 +1,39 @@
+version: 1
+project:
+  root: .
+  build_config: lzc-build.yml
+  package_file: package.yml
+  output: dist/application.lpk
+  target_arch: amd64
+update:
+  strategy: publish
+  allow_downgrade: false
+  version_source:
+    type: image
+    image: pagesift
+build:
+  toolchains: []
+  run_buildscript: false
+images:
+  - id: pagesift
+    target: service
+    service: pagesift
+    # Full registry path on purpose: this project publishes only to ghcr, so a
+    # bare name would silently fall back to Docker Hub and 404.
+    source: ghcr.io/yolow92/pagesift
+    channel: stable
+    sort: semver
+    tag_regex: ^v?[0-9]+[.][0-9]+[.][0-9]+$
+    delivery:
+      mode: mirror
+      require_digest_match: true
+release:
+  use_github_release_notes: true
+  store_changelog_format: plain
+stores:
+  official:
+    enabled: false
+  private:
+    enabled: false
+    name: pagesift
+    skip_if_version_exists: true

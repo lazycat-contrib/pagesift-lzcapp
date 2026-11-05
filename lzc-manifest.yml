@@ -1,0 +1,41 @@
+application:
+  subdomain: pagesift
+  multi_instance: false
+  # API service: clients (agents, scripts, SDKs) must reach the endpoints
+  # directly -- they cannot follow an auth redirect. Access control is done by
+  # pagesift's own API key (PAGESIFT_API_KEYS), so it is exposed directly.
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://pagesift:3002/
+services:
+  pagesift:
+    # upstream: ghcr.io/yolow92/pagesift:1.1.2
+    image: ghcr.1ms.run/yolow92/pagesift:1.1.2
+    environment:
+      - PAGESIFT_DATA_DIR=/data
+      - PAGESIFT_LOG=info
+      # Bearer token clients must send. Generated at install time; keep it secret.
+      - PAGESIFT_API_KEYS={{ .U.api_keys }}
+      - LIGHTPANDA_DISABLE_TELEMETRY=true
+    binds:
+      - /lzcapp/var/data:/data
+usage: |
+  pagesift 是自托管网页抓取与文档解析服务，供 AI Agent / 自动化流程调用：
+  把网页、PDF（带 OCR）、Office 文件转成干净的 Markdown 或 JSON。
+  兼容 Firecrawl v2 与 Jina Reader 的 API 形式。
+
+  调用方式（需带安装时生成的 API Key）：
+    curl -s http://<入口>/v2/scrape -H 'Authorization: Bearer <API Key>' \
+      -H 'Content-Type: application/json' -d '{"url":"https://example.com"}'
+    curl -s http://<入口>/r/https://example.com -H 'Authorization: Bearer <API Key>'
+
+  说明：
+    - 本服务是一个 HTTP API，没有网页界面，需要客户端携带上面的 Bearer Token 访问。
+      安装时生成的密钥可在部署参数中查看/修改。
+    - 应用直接对外开放（未使用平台二次鉴权），因为 API 客户端需要直接访问接口；
+      访问控制由 pagesift 自己的 API Key 完成，请妥善保管该密钥。
+    - 抓取结果与缓存存放在 data 目录，随应用持久化保留。
+    - 该服务会主动访问你指定的外部网址，请只抓取你有权访问的目标。
+    - 未做实机验证。
