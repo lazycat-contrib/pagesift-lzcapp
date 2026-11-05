@@ -34,6 +34,6 @@ stores:
   official:
     enabled: false
   private:
-    enabled: false
+    enabled: true
     name: pagesift
     skip_if_version_exists: true
