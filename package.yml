@@ -1,7 +1,7 @@
 package: community.lazycat.app.pagesift
 name: pagesift
 description: "Self-hosted web scraper, crawler and document parser for AI agents: URLs, PDFs and Office files to clean Markdown/JSON."
-version: 1.1.2
+version: 1.6.0
 min_os_version: "1.5.0"
 homepage: https://github.com/YOLOW92/pagesift
 author: YOLOW92
