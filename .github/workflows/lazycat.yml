@@ -1,5 +1,8 @@
 name: Build pagesift LPK
 on:
+  schedule:
+    # 每 3 小时检查上游 ghcr.io/yolow92/pagesift 新版本（UTC）
+    - cron: "37 */3 * * *"
   workflow_dispatch:
 permissions:
   contents: write
