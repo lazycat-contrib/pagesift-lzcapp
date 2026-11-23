@@ -11,8 +11,8 @@ application:
       backend: http://pagesift:3002/
 services:
   pagesift:
-    # upstream: ghcr.io/yolow92/pagesift:1.6.3
-    image: ghcr.1ms.run/yolow92/pagesift:1.6.3
+    # upstream: ghcr.io/yolow92/pagesift:1.7.0
+    image: ghcr.1ms.run/yolow92/pagesift:1.7.0
     environment:
       - PAGESIFT_DATA_DIR=/data
       - PAGESIFT_LOG=info
